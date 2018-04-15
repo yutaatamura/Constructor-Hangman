@@ -11,7 +11,7 @@ var Word = function(word) {
     this.renderWord = function() {
        for (var i=0; i<this.word.length; i++) {
            this.letters[i] = new Letter(this.letters[i]);
-           this.letters[i].guessed = true;
+           this.letters[i].guessed = false;
            console.log(this.letters[i]);
            this.letters[i].displayChar();
        }
@@ -19,7 +19,7 @@ var Word = function(word) {
 }
 
 var testWord = new Word("Rawville");
-testWord.lettersOfInt();
-testWord.renderWord();
+// testWord.lettersOfInt();
+// testWord.renderWord();
 
 module.exports = Word;
