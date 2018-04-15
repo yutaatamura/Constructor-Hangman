@@ -10,10 +10,17 @@ var Letter = function(char) {
             console.log("_");
         }
     }
+    this.check = function(guess) {
+        if (guess === this.char) {
+            this.char = true;
+        } else {
+            return;
+        }
+    }
 };
 
-var testLetter = new Letter("a");
-testLetter.displayChar();
+// var testLetter = new Letter("a");
+// testLetter.displayChar();
 
 module.exports = Letter;
 
