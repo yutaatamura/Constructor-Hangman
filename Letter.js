@@ -4,17 +4,17 @@ var Letter = function(char) {
     this.guessed = false;
     this.displayChar = function() {
         if (this.guessed) {
-            console.log("Guessed = true")
-            console.log(this.char);
+            return this.char;
         } else {
-            console.log("_");
+            return "_"
         }
     }
     this.check = function(guess) {
         if (guess === this.char) {
-            this.char = true;
+            this.guessed = true;
+            return true;
         } else {
-            return;
+            return false;
         }
     }
 };
