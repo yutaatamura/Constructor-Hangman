@@ -58,14 +58,21 @@ function guess() {
             }
         ]).then(function(userGuess) {
             var formattedGuess = userGuess.guess.toUpperCase();
-
+            if (!/^[a-zA-Z]+$/.test(formattedGuess)) {
+                console.log("Sorry, please input a letter.")
+                guess();
+                return;
+            }
             if (formattedGuess === '') {
                 console.log("Sorry, please type a letter.")
                 guess();
                 return;
             }
 
-            console.log("You guessed: " + formattedGuess +"\n");
+            console.log(`
+********************************
+You guessed: ${formattedGuess}
+`);
 
             //check if letter has already been guessed
             if (lettersGuessed.indexOf(formattedGuess) > -1) {
@@ -85,7 +92,9 @@ function guess() {
                     if (displayAnswer.check(formattedGuess) === true) {
                     
                     console.log("You guessed correctly!");
-                    console.log(`Guesses remaining: ${guesses}`)
+                    console.log(`
+Guesses remaining: ${guesses}
+*********************************`)
                     checkWin();
                         if (gameEnd === true) {
                             reset();
@@ -97,13 +106,17 @@ function guess() {
                     } else {
                     console.log("Wrong! Guess again!");
                     guesses--;
-                    console.log(`Guesses remaining: ${guesses}`)
+                    console.log(`
+Guesses remaining: ${guesses}
+********************************`)
                     guess();
                     }
                 
         })
     } else {
-        console.log("You ran out of guesses! Too bad. Try another game?");
+        console.log(`
+You ran out of guesses! Too bad. 
+The answer was ${displayAnswer.word}. Try another game?`);
         userLosses++;
         console.log(`Wins: ${userWins} Losses: ${userLosses}`)
         reset();
