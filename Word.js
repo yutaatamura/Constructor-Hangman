@@ -6,6 +6,7 @@ var Word = function(word) {
     this.letterObjArr = [];
     this.lettersOfInt = function() {
         this.letters = this.word.split("");
+        // Uncomment below to show the chosen word
         // console.log("this.letters: "+this.letters)
         for (var i=0; i<this.letters.length; i++) {
             this.letterObjArr.push(new Letter(this.letters[i]));
@@ -24,7 +25,7 @@ var Word = function(word) {
     this.check = function(userGuess) {
         var wordGuessed = false;
         this.letterObjArr.forEach(function(let) {
-            if (userGuess === let.char) {
+            if (userGuess === let.char.toUpperCase()) {
                 let.guessed = true;
                 wordGuessed = true;
             }

@@ -9,14 +9,16 @@ var guesses = 3;
 var userInputLetter;
 var lettersGuessed = [];
 var letterLocationIndex = [];
-var double = false;
-var match = false;
 var displayAnswer;
 var userWins = 0;
 var userLosses = 0;
 var wordOfInt;
+var correctGuess = false;
+var correctCount = 0;
+var gameEnd = false;
 
 initialize();
+
 function initialize() {
     inquirer.prompt([
         {
@@ -42,7 +44,8 @@ computerOutput = words[Math.floor(Math.random() * words.length)];
 displayAnswer = new Word (computerOutput.toUpperCase());
 displayAnswer.lettersOfInt();
 displayAnswer.displayWord();
-// guess();
+guess();
+
 }
 
 
@@ -53,14 +56,90 @@ function guess() {
                name: 'guess',
                message: 'Guess a letter:'
             }
-        ]).then(function(guess) {
-            var formattedGuess = guess.guess.toUpperCase();
-            console.log("You guessed: " + formattedGuess);
-            for (i=0; i<lettersGuessed.length; i++)
-                if (formattedGuess === lettersGuessed[i]) {
-                    console.log("I match!")
+        ]).then(function(userGuess) {
+            var formattedGuess = userGuess.guess.toUpperCase();
+
+            if (formattedGuess === '') {
+                console.log("Sorry, please type a letter.")
+                guess();
+                return;
             }
+
+            console.log("You guessed: " + formattedGuess +"\n");
+
+            //check if letter has already been guessed
+            if (lettersGuessed.indexOf(formattedGuess) > -1) {
+                console.log("You have already guessed this letter! Try again.");
+                console.log("Letters Guessed: [" + lettersGuessed + "]\n");
+                displayAnswer.displayWord();
+                guess();
+                return;
+
+            } else {
+            lettersGuessed.push(formattedGuess);
+            }
+            
+            console.log("Letters Guessed: [" + lettersGuessed + "]\n")
+            // for (j=0; j<displayAnswer.letterObjArr.length; j++) {
+                // if (userGuess.guess.toUpperCase() === displayAnswer.letterObjArr[i].char && displayAnswer.letterObjArr[i].guessed === false) {
+                    if (displayAnswer.check(formattedGuess) === true) {
+                    
+                    console.log("You guessed correctly!");
+                    console.log(`Guesses remaining: ${guesses}`)
+                    checkWin();
+                        if (gameEnd === true) {
+                            reset();
+                            initialize();
+                            return;
+                        }
+                    guess();
+
+                    } else {
+                    console.log("Wrong! Guess again!");
+                    guesses--;
+                    console.log(`Guesses remaining: ${guesses}`)
+                    guess();
+                    }
+                
         })
-    }
+    } else {
+        console.log("You ran out of guesses! Too bad. Try another game?");
+        userLosses++;
+        console.log(`Wins: ${userWins} Losses: ${userLosses}`)
+        reset();
+        initialize();
+    }   
 };
+
+function checkWin() {
+
+    for  (var i=0; i<displayAnswer.letterObjArr.length; i++) {
+        var x = displayAnswer.letterObjArr;
+        // console.log(x[i].guessed);
+        if (x[i].guessed === true) {
+            correctCount++;
+            // console.log("correctcount: "+correctCount)
+        }
+    }
+    if (correctCount === displayAnswer.letterObjArr.length) {
+
+                console.log("Congratulations! You have successfully answered the word! Play again?");   
+                gameEnd = true;
+                userWins++;
+                console.log(`Wins: ${userWins} Losses: ${userLosses}`)
+         
+    }
+        correctCount = 0;
+}
+
+
+function reset() {
+    
+    guesses = 3;
+    correctCount = 0;
+    lettersGuessed = [];
+    gameEnd = false;
+    
+}
+
 
