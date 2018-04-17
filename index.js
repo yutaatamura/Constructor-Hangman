@@ -4,16 +4,11 @@ var inquirer = require("inquirer");
 
 var words = ["rat", "ox", "tiger", "rabbit", "dragon", "snake", "horse", "goat", "monkey", "rooster", "dog", "pig"];
 var computerOutput;
-var separated;
 var guesses = 3;
-var userInputLetter;
 var lettersGuessed = [];
-var letterLocationIndex = [];
 var displayAnswer;
 var userWins = 0;
 var userLosses = 0;
-var wordOfInt;
-var correctGuess = false;
 var correctCount = 0;
 var gameEnd = false;
 
